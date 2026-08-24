@@ -20,6 +20,10 @@ public class Activity {
     @Column(columnDefinition = "json")
     private Map<String, Object> additionalMatrix;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     private Integer duration;
     private Integer caloriesBurned;
     private LocalDateTime startTime;
