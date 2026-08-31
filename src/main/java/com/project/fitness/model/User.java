@@ -34,3 +34,5 @@ public class User {
     @JsonIgnore
     private List<Recommendation> recommendations = new ArrayList<>();
 }
+
+
