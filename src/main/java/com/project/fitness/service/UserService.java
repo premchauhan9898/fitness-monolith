@@ -1,6 +1,7 @@
 package com.project.fitness.service;
 
 import com.project.fitness.dto.RegisterRequest;
+import com.project.fitness.dto.UserResponse;
 import com.project.fitness.model.User;
 import com.project.fitness.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -11,15 +12,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    public User register(RegisterRequest registerRequest) {
+    public UserResponse register(RegisterRequest registerRequest) {
 
         LocalDateTime now = LocalDateTime.now();
         User user = new User(
-                "xx01",
+                null,
                 registerRequest.getEmail(),
                 registerRequest.getPassword(),
                 registerRequest.getFirstName(),
@@ -30,6 +30,21 @@ public class UserService {
                 List.of()
                 );
 
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        return mapToUserResponse(savedUser);
+    }
+
+    private UserResponse mapToUserResponse(User user) {
+        UserResponse userResponse = new UserResponse();
+
+        userResponse.setId(user.getId());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setPassword(user.getPassword());
+        userResponse.setFirstName(user.getFirstName());
+        userResponse.setLastName(user.getLastName());
+        userResponse.setCreatedAt(user.getCreatedAt());
+        userResponse.setUpdatedAt(user.getUpdatedAt());
+
+        return userResponse;
     }
 }
