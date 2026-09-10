@@ -18,17 +18,16 @@ public class UserService {
     public UserResponse register(RegisterRequest registerRequest) {
 
         LocalDateTime now = LocalDateTime.now();
-        User user = new User(
-                null,
-                registerRequest.getEmail(),
-                registerRequest.getPassword(),
-                registerRequest.getFirstName(),
-                registerRequest.getLastName(),
-                now,
-                now,
-                List.of(),
-                List.of()
-                );
+        User user = User.builder()
+                .email(registerRequest.getEmail())
+                .password(registerRequest.getPassword())
+                .lastName(registerRequest.getLastName())
+                .activities(List.of())
+                .recommendations(List.of())
+                .createdAt(now).updatedAt(now)
+                .build();
+
+
 
         User savedUser = userRepository.save(user);
         return mapToUserResponse(savedUser);
