@@ -27,8 +27,6 @@ public class UserService {
                 .createdAt(now).updatedAt(now)
                 .build();
 
-
-
         User savedUser = userRepository.save(user);
         return mapToUserResponse(savedUser);
     }

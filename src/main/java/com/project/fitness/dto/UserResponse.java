@@ -12,5 +12,4 @@ import java.time.LocalDateTime;
 public class UserResponse {
     private String id, email, password, firstName, lastName;
     LocalDateTime createdAt, updatedAt;
-
 }
