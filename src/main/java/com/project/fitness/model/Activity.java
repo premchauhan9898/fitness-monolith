@@ -2,6 +2,8 @@ package com.project.fitness.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 @Entity
+@Builder
+@Data
 public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -20,7 +24,6 @@ public class Activity {
     private ActivityType type;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "json")
     private Map<String, Object> additionalMatrix;
 
     @ManyToOne(fetch = FetchType.LAZY)
