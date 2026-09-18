@@ -1,6 +1,6 @@
 package com.project.fitness.service;
 
-import com.project.fitness.dto.ActivityRegisterRequest;
+import com.project.fitness.dto.ActivityRequest;
 import com.project.fitness.dto.ActivityResponse;
 import com.project.fitness.model.Activity;
 import com.project.fitness.model.User;
@@ -11,18 +11,17 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class ActivityService {
     public final ActivityRepository activityRepository;
     private final UserRepository userRepository;
-    public Activity registerActivity(ActivityRegisterRequest activityRegisterRequest) {
-        return activityRepository.save(mapToActivity(activityRegisterRequest));
+    public Activity registerActivity(ActivityRequest activityRequest) {
+        return activityRepository.save(mapToActivity(activityRequest));
     }
 
-    public Activity mapToActivity(ActivityRegisterRequest request) {
+    public Activity mapToActivity(ActivityRequest request) {
 
         User user = userRepository.findById(request.getUserId()).
                 orElseThrow(RuntimeException::new);
@@ -36,6 +35,7 @@ public class ActivityService {
                 .startTime(request.getStartTime())
                 .updatedAt(LocalDateTime.now())
                 .createdAt(LocalDateTime.now())
+                .duration(request.getDuration())
                 .build();
     }
 

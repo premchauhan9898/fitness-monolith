@@ -1,6 +1,6 @@
 package com.project.fitness.controller;
 
-import com.project.fitness.dto.ActivityRegisterRequest;
+import com.project.fitness.dto.ActivityRequest;
 import com.project.fitness.dto.ActivityResponse;
 import com.project.fitness.model.Activity;
 import com.project.fitness.service.ActivityService;
@@ -16,8 +16,8 @@ import java.util.List;
 public class ActivityController {
     private final ActivityService activityService;
     @PostMapping
-    public Activity registerActivity(@RequestBody ActivityRegisterRequest activityRegisterRequest) {
-        return activityService.registerActivity(activityRegisterRequest);
+    public ResponseEntity<Activity> registerActivity(@RequestBody ActivityRequest activityRequest) {
+        return ResponseEntity.ok(activityService.registerActivity(activityRequest));
     }
 
     @GetMapping("/{userId}")

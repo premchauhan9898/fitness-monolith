@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @Data
-public class ActivityRegisterRequest {
+public class ActivityRequest {
     private String userId;
     private ActivityType type;
     private Map<String, Object> additionalMatrix;
