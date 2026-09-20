@@ -20,8 +20,8 @@ public class ActivityController {
         return ResponseEntity.ok(activityService.registerActivity(activityRequest));
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<ActivityResponse>> getActivities(@PathVariable String userId) {
+    @GetMapping
+    public ResponseEntity<List<ActivityResponse>> getActivities(@RequestHeader(value = "X-User-ID") String userId) {
         return ResponseEntity.ok(activityService.getActivities(userId));
     }
 }
