@@ -16,5 +16,4 @@ public class ActivityResponse {
     private LocalDateTime startTime;
     private Map<String, Object> additionalMatrix;
     private ActivityType type;
-
 }
