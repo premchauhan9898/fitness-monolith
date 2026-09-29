@@ -1,6 +1,7 @@
 package com.project.fitness.service;
 
 import com.project.fitness.dto.RecommendationRequest;
+import com.project.fitness.dto.RecommendationResponse;
 import com.project.fitness.model.Activity;
 import com.project.fitness.model.Recommendation;
 import com.project.fitness.model.User;
@@ -19,11 +20,11 @@ public class RecommendationService {
     private final ActivityRepository activityRepository;
     private final UserRepository userRepository;
 
-    public Recommendation generateRecommendation(RecommendationRequest request) {
+    public RecommendationResponse generateRecommendation(RecommendationRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User Not Found: " + request.getUserId()));
 
-        Activity activity = activityRepository.findById(request.getUserId())
+        Activity activity = activityRepository.findById(request.getActivityId())
                 .orElseThrow(() -> new RuntimeException("Activity Not Found" + request.getActivityId()));
 
         Recommendation recommendation = Recommendation.builder()
@@ -34,9 +35,29 @@ public class RecommendationService {
                 .safety(request.getSafety())
                 .build();
 
-        Recommendation savedRecommendation = recommendationRepository.save(recommendation);
+        recommendationRepository.save(recommendation);
 
-        return savedRecommendation;
+        return new RecommendationResponse(
+                request.getUserId(),
+                request.getActivityId(),
+                request.getRecommendation(),
+                request.getImprovements(),
+                request.getSuggestions(),
+                request.getSafety()
+        );
     }
 
+    public RecommendationResponse getRecommendation(String userId) {
+        Recommendation response = recommendationRepository.findByUserId(userId);
+
+        System.out.println(response);
+        return new RecommendationResponse(
+                response.getUserId(),
+                response.getActivityId(),
+                response.getRecommendation(),
+                response.getImprovements(),
+                response.getSuggestions(),
+                response.getSafety()
+        );
+    }
 }
