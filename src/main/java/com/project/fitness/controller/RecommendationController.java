@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/recommendation")
 @AllArgsConstructor
@@ -19,7 +21,14 @@ public class RecommendationController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<RecommendationResponse> getRecommendation(@PathVariable String userId) {
-        return ResponseEntity.ok(service.getRecommendation(userId));
+    public ResponseEntity<List<RecommendationResponse>> getUserRecommendation(@PathVariable String userId) {
+        return ResponseEntity.ok(service.getUserRecommendation(userId));
     }
+
+    @GetMapping("/activity/{activityId}")
+    public ResponseEntity<RecommendationResponse> getActivityRecommendation(@PathVariable String activityId) {
+        return ResponseEntity.ok(service.getActivityRecommendation(activityId));
+    }
+
+
 }

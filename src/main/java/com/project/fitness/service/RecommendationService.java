@@ -12,6 +12,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Data
 @RequiredArgsConstructor
@@ -47,17 +49,31 @@ public class RecommendationService {
         );
     }
 
-    public RecommendationResponse getRecommendation(String userId) {
-        Recommendation response = recommendationRepository.findByUserId(userId);
+    public List<RecommendationResponse> getUserRecommendation(String userId) {
+        List<Recommendation> response = recommendationRepository.findByUserId(userId);
 
-        System.out.println(response);
-        return new RecommendationResponse(
-                response.getUserId(),
-                response.getActivityId(),
-                response.getRecommendation(),
-                response.getImprovements(),
-                response.getSuggestions(),
-                response.getSafety()
+        return response
+                .stream()
+                .map(singleResponse -> new RecommendationResponse(
+                        singleResponse.getUser().getId(),
+                        singleResponse.getActivity().getId(),
+                        singleResponse.getRecommendation(),
+                        singleResponse.getImprovements(),
+                        singleResponse.getSuggestions(),
+                        singleResponse.getSafety()
+                ))
+                .toList();
+    }
+
+    public RecommendationResponse getActivityRecommendation(String activityId) {
+        Recommendation recommendation = recommendationRepository.findByActivityId(activityId);
+        return new RecommendationResponse (
+                recommendation.getId(),
+                recommendation.getActivity().getId(),
+                recommendation.getRecommendation(),
+                recommendation.getImprovements(),
+                recommendation.getSuggestions(),
+                recommendation.getSafety()
         );
     }
 }
